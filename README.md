@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Faris Sahman - Portfolio
+
+Personal portfolio website built with modern web technologies. Showcasing my projects, services, and professional experience as a Full Stack Developer.
+
+**Live:** [sahmanfaris.com](https://sahmanfaris.com)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router, Server Components)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4
+- **Animations:** Framer Motion, Aceternity UI
+- **Email:** Resend
+- **Deployment:** Vercel
+
+## Features
+
+- **Internationalization (i18n)** - English (default, no URL prefix) and Bosnian (`/bs`) with URL-based routing
+- **SEO Optimized** - Sitemap, robots.txt, JSON-LD structured data, per-page metadata with hreflang tags
+- **Server Components** - Pages are Server Components with Client Component wrappers for interactivity
+- **Contact Form** - Functional email sending via Resend API
+- **Responsive Design** - Mobile-first, works on all screen sizes
+- **Loading States** - Skeleton UI for all pages via Next.js Suspense
+- **Animations** - Smooth page transitions and interactive elements
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── [locale]/           # Locale-based routing (en, bs)
+│   │   ├── projects/       # Projects listing & detail pages
+│   │   ├── services/       # Services page
+│   │   ├── contact/        # Contact page with form & map
+│   │   ├── page.tsx        # Homepage
+│   │   ├── layout.tsx      # Locale layout with i18n provider
+│   │   └── loading.tsx     # Skeleton loading states
+│   ├── api/contact/        # Contact form API route
+│   ├── sitemap.ts          # Dynamic sitemap generation
+│   ├── robots.ts           # Robots.txt configuration
+│   └── layout.tsx          # Root layout with metadata
+├── components/
+│   ├── layout/             # Header, Footer
+│   ├── sections/           # Hero, About, Projects, Services, etc.
+│   ├── ui/                 # Reusable UI components
+│   └── seo/                # JSON-LD structured data
+├── data/                   # Projects, services, site config
+└── lib/                    # i18n, locale context, utilities
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your RESEND_API_KEY and CONTACT_EMAIL
+
+# Run development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|---|---|
+| `RESEND_API_KEY` | API key from [Resend](https://resend.com) for contact form |
+| `CONTACT_EMAIL` | Email address to receive contact form submissions |
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is for personal use. Feel free to use it as inspiration for your own portfolio.
