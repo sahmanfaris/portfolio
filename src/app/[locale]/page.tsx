@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = getTranslations(locale as Locale);
 
-  const title = `${siteConfig.name} | ${t.hero.title}`;
+  const title = t.hero.title;
   const description = t.hero.description;
 
   return {

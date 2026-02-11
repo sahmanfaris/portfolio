@@ -7,11 +7,13 @@ const defaultLocale = "en";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip internal paths and static files
+  // Skip internal paths, static files, and generated assets
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/images") ||
+    pathname.startsWith("/icon") ||
+    pathname.startsWith("/apple-icon") ||
     pathname.includes(".")
   ) {
     return NextResponse.next();

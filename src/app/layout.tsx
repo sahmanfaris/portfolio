@@ -20,7 +20,8 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} | ${siteConfig.title}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  description:
+    "Fullstack developer specialized in building modern web applications. I work with Next.js, React, Node.js and other modern technologies.",
   keywords: [
     "fullstack developer",
     "web developer",
@@ -37,14 +38,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: `${siteConfig.name} | ${siteConfig.title}`,
+    description: "Fullstack developer specialized in building modern web applications. I work with Next.js, React, Node.js and other modern technologies.",
     siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: `${siteConfig.name} | ${siteConfig.title}`,
+    description: "Fullstack developer specialized in building modern web applications. I work with Next.js, React, Node.js and other modern technologies.",
   },
   robots: {
     index: true,
