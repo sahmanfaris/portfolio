@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Script from "next/script";
 import { Send, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/lib/locale-context";
+import { getFormspreeEndpoint } from "@/lib/formspree";
+import {
+  getRecaptchaScriptSrc,
+  getRecaptchaSiteKey,
+  getRecaptchaToken,
+} from "@/lib/recaptcha";
 
 interface FormData {
   name: string;
@@ -30,6 +37,10 @@ export function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+
+  const recaptchaSiteKey = getRecaptchaSiteKey();
+  const formspreeEndpoint = getFormspreeEndpoint();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -64,28 +75,41 @@ export function ContactForm() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setSubmitError(false);
+
+    const endpoint = formspreeEndpoint ?? "/api/contact";
 
     try {
-      const response = await fetch("/api/contact", {
+      const payload: Record<string, string> = { ...formData };
+
+      if (formspreeEndpoint && recaptchaSiteKey) {
+        payload["g-recaptcha-response"] = await getRecaptchaToken(
+          recaptchaSiteKey
+        );
+      }
+
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
+        const detail = await response.json().catch(() => null);
+        console.error("Formspree error:", response.status, detail);
         throw new Error("Failed to send message");
       }
 
       setIsSuccess(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
 
-      // Reset success message after 5 seconds
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (error) {
       console.error("Error sending message:", error);
-      // You could add error state here to show error message to user
+      setSubmitError(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -119,7 +143,14 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+      {recaptchaSiteKey && formspreeEndpoint && (
+        <Script
+          src={getRecaptchaScriptSrc(recaptchaSiteKey)}
+          strategy="lazyOnload"
+        />
+      )}
+      <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label
           htmlFor="name"
@@ -220,6 +251,12 @@ export function ContactForm() {
         )}
       </div>
 
+      {submitError && (
+        <p className="text-sm text-red-500 text-center">
+          {t.contact.form.submitError}
+        </p>
+      )}
+
       <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? (
           <>
@@ -234,5 +271,6 @@ export function ContactForm() {
         )}
       </Button>
     </form>
+    </>
   );
 }

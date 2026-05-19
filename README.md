@@ -11,7 +11,7 @@ Personal portfolio website built with modern web technologies. Showcasing my pro
 - **Styling:** Tailwind CSS 4
 - **Animations:** Framer Motion, Aceternity UI
 - **Email:** Resend
-- **Deployment:** Vercel
+- **Deployment:** Static export on Hetzner VPS (Caddy)
 
 ## Features
 
@@ -64,12 +64,28 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+## Deployment
+
+The live site is a static export (`out/`) served by Caddy. There is no CI/CD — deploy manually when you change something (usually rare).
+
+```bash
+# Ensure .env.local has NEXT_PUBLIC_* vars (needed at build time)
+pnpm build:static
+
+# Replace USER and host with your VPS SSH target
+rsync -avz --delete out/ USER@YOUR_VPS:/var/www/sahmanfaris.com/
+```
+
+`--delete` removes files on the server that are no longer in `out/`. Omit it if you prefer a non-destructive sync.
+
 ## Environment Variables
 
 | Variable | Description |
 |---|---|
-| `RESEND_API_KEY` | API key from [Resend](https://resend.com) for contact form |
-| `CONTACT_EMAIL` | Email address to receive contact form submissions |
+| `NEXT_PUBLIC_FORMSPREE_FORM_ID` | Formspree form ID (required for `pnpm build:static`) |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | reCAPTCHA v3 site key (public; secret lives in Formspree) |
+| `RESEND_API_KEY` | Optional — only for local dev with `/api/contact` |
+| `CONTACT_EMAIL` | Optional — paired with Resend for local API route |
 
 ## License
 

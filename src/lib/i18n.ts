@@ -138,6 +138,8 @@ export const translations = {
         sending: "Slanje...",
         successTitle: "Poruka poslana!",
         successMessage: "Hvala na poruci. Javit ću vam se uskoro.",
+        submitError:
+          "Poruka nije poslana. Pokušajte ponovo ili mi pišite direktno na email.",
         errors: {
           nameRequired: "Ime je obavezno",
           emailRequired: "Email je obavezan",
@@ -392,6 +394,8 @@ export const translations = {
         successTitle: "Message sent!",
         successMessage:
           "Thank you for your message. I'll get back to you soon.",
+        submitError:
+          "Message could not be sent. Please try again or email me directly.",
         errors: {
           nameRequired: "Name is required",
           emailRequired: "Email is required",
